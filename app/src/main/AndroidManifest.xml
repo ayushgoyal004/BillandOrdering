@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".activities.AdminDashboardActivity"/>
-<!--        <activity android:name=".activities.UserDashboardActivity"/>-->
+        <activity android:name=".activities.UserDashboardActivity"/>
+        <activity android:name=".activities.NewOrderActivity"/>
     </application>
 </manifest>
