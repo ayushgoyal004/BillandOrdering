@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/light_gray">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="OM"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/primary"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:text="Order Manager"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray_800"
+            android:layout_marginBottom="8dp"  android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+        <TextView
+            android:text="Streamline your orders and billing"
+            android:textColor="@color/gray_500"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:hint="Email or Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnAdminLogin"
+            android:text="Login as Admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnUserLogin"
+            android:text="Login as User"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_gray"
+            android:textColor="@color/gray_800" />
+
+        <TextView
+            android:text="Don't have an account? Sign up"
+            android:textColor="@color/gray_500"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
