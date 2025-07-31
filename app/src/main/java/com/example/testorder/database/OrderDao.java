@@ -17,4 +17,7 @@ public interface OrderDao {
 
     @Query("SELECT * FROM orders WHERE clientId = :clientId")
     List<Order> getOrdersByClient(int clientId);
+
+    @Query("SELECT * FROM orders WHERE clientName LIKE :searchQuery ORDER BY date DESC")
+    List<Order> searchOrders(String searchQuery);
 }

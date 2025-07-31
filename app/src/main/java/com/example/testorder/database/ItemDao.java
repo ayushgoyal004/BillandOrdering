@@ -11,4 +11,7 @@ public interface ItemDao {
 
     @Query("SELECT * FROM items WHERE orderId = :orderId")
     List<Item> getItemsForOrder(int orderId);
+
+    @Query("SELECT * FROM items")
+    List<Item> getAllItems();
 }

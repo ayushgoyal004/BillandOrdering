@@ -8,7 +8,7 @@ import com.example.testorder.models.Client;
 import com.example.testorder.models.Order;
 import com.example.testorder.models.Item;
 
-@Database(entities = {Client.class, Order.class, Item.class}, version = 1)
+@Database(entities = {Client.class, Order.class, Item.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

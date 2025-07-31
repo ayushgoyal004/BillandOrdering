@@ -13,4 +13,11 @@ public class Item {
     public String unit;
     public int quantity;
     public double rate;
+    public Item() {}
+    public Item(String itemName) {
+        this.itemName = itemName;
+    }
+    public String getItemName() {
+        return itemName;
+    }
 }

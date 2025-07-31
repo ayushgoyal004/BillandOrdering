@@ -9,6 +9,7 @@ public class Order {
     public int id;
 
     public int clientId;
+    public String clientName;
     public String date;
     public double subtotal;
     public double tax;

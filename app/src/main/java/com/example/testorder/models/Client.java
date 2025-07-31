@@ -14,4 +14,17 @@ public class Client {
     public String email;
     public String address;
     public String pricingCategory;
+
+    public Client(String businessName, String phone) {
+        this.businessName = businessName;
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return businessName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }

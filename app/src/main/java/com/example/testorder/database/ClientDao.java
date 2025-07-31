@@ -3,7 +3,6 @@ package com.example.testorder.database;
 import androidx.room.*;
 import com.example.testorder.models.Client;
 import java.util.List;
-
 @Dao
 public interface ClientDao {
     @Insert
@@ -14,6 +13,9 @@ public interface ClientDao {
 
     @Delete
     void delete(Client client);
+
+    @Query("SELECT * FROM clients WHERE businessName LIKE :searchQuery")
+    List<Client> searchClients(String searchQuery);
 
     @Query("SELECT * FROM clients ORDER BY businessName ASC")
     List<Client> getAllClients();
