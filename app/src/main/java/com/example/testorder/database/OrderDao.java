@@ -11,6 +11,8 @@ public interface OrderDao {
 
     @Update
     void update(Order order);
+    @Insert
+    long insertAndGetId(Order order);
 
     @Query("SELECT * FROM orders ORDER BY date DESC")
     List<Order> getAllOrders();
