@@ -153,6 +153,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testorder.R;
@@ -173,6 +174,8 @@ public class BillPreviewActivity extends AppCompatActivity {
     TextView txtClient, txtDate, txtSubtotal, txtTax, txtDiscount, txtTotal;
     LinearLayout layoutItems;
     Button btnGeneratePdf;
+    Button btnToggleStatus;
+    Order currentOrder;  // save reference
 
     String formattedDate = "";
 
@@ -189,6 +192,7 @@ public class BillPreviewActivity extends AppCompatActivity {
         txtTotal = findViewById(R.id.txtTotal);
         btnGeneratePdf = findViewById(R.id.btnGeneratePdf);
         layoutItems = findViewById(R.id.layoutItems);
+        btnToggleStatus = findViewById(R.id.btnToggleStatus);
 
         int orderId = getIntent().getIntExtra("orderId", -1);
         if (orderId == -1) {
@@ -204,7 +208,8 @@ public class BillPreviewActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 txtClient.setText("Client: " + client.businessName);
-
+                currentOrder = order;
+                updateToggleButton(order.status);
                 try {
                     long timestamp = Long.parseLong(order.date);
                     formattedDate = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(timestamp));
@@ -227,9 +232,22 @@ public class BillPreviewActivity extends AppCompatActivity {
                 }
 
                 btnGeneratePdf.setOnClickListener(v -> generatePdf(order, client, orderItems));
+                btnToggleStatus.setOnClickListener(v -> {
+                    if (currentOrder.status.equals("Completed")) {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Mark as Uncompleted?")
+                                .setMessage("Are you sure you want to mark this order as uncompleted?")
+                                .setPositiveButton("Yes", (dialog, which) -> updateOrderStatus("PDF Generated"))
+                                .setNegativeButton("No", null)
+                                .show();
+                    } else {
+                        updateOrderStatus("Completed");
+                    }
+                });
             });
         }).start();
     }
+
 
     private void generatePdf(Order order, Client client, List<OrderItem> orderItems) {
         new Thread(() -> {
@@ -279,10 +297,26 @@ public class BillPreviewActivity extends AppCompatActivity {
                 out.close();
 
                 runOnUiThread(() -> Toast.makeText(this, "PDF saved to Downloads", Toast.LENGTH_SHORT).show());
+                updateOrderStatus("PDF Generated");
             } catch (Exception e) {
                 e.printStackTrace();
                 runOnUiThread(() -> Toast.makeText(this, "Failed to create PDF", Toast.LENGTH_SHORT).show());
             }
+        }).start();
+    }
+    private void updateToggleButton(String status) {
+        btnToggleStatus.setText(status.equals("Completed") ? "Mark as Uncompleted" : "Mark as Completed");
+    }
+    private void updateOrderStatus(String newStatus) {
+        new Thread(() -> {
+            currentOrder.status = newStatus;
+            AppDatabase.getInstance(this).orderDao().update(currentOrder);
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Order status updated", Toast.LENGTH_SHORT).show();
+                txtTotal.setText("Total: ₹" + currentOrder.total + " (" + currentOrder.status + ")");
+                updateToggleButton(newStatus);
+            });
         }).start();
     }
 }
