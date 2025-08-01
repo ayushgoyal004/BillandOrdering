@@ -27,6 +27,7 @@
         <activity android:name=".activities.AddClientActivity"/>
         <activity android:name=".activities.AddItemActivity"/>
         <activity android:name=".activities.OrdersActivity"/>
+        <activity android:name=".activities.BillPreviewActivity" />
         <activity android:name=".activities.ReportsActivity"/>
     </application>
 </manifest>

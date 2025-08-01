@@ -20,4 +20,10 @@ public class Item {
     public String getItemName() {
         return itemName;
     }
+    public Item(String itemName, int quantity, double rate, int orderId) {
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.rate = rate;
+        this.orderId = orderId;
+    }
 }

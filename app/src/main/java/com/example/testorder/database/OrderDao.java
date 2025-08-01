@@ -20,4 +20,7 @@ public interface OrderDao {
 
     @Query("SELECT * FROM orders WHERE clientName LIKE :searchQuery ORDER BY date DESC")
     List<Order> searchOrders(String searchQuery);
+    @Query("SELECT * FROM orders WHERE id = :orderId LIMIT 1")
+    Order getOrderById(int orderId);
+
 }

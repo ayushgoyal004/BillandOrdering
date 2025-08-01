@@ -19,4 +19,6 @@ public interface ClientDao {
 
     @Query("SELECT * FROM clients ORDER BY businessName ASC")
     List<Client> getAllClients();
+    @Query("SELECT * FROM clients WHERE id = :clientId LIMIT 1")
+    Client getClientById(int clientId);
 }
