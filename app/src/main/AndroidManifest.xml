@@ -29,5 +29,10 @@
         <activity android:name=".activities.OrdersActivity"/>
         <activity android:name=".activities.BillPreviewActivity" />
         <activity android:name=".activities.ReportsActivity"/>
+
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 </manifest>

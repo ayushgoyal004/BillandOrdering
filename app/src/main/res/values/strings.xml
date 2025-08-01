@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestOrder</string>
+    <string name="generate_pdf">Generate PDF</string>
 </resources>

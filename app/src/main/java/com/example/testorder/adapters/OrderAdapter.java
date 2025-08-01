@@ -61,7 +61,10 @@ import com.example.testorder.R;
 import com.example.testorder.activities.BillPreviewActivity;
 import com.example.testorder.models.Order;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
@@ -107,6 +110,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             txtClientName = itemView.findViewById(R.id.txtClientName);
             txtAmount = itemView.findViewById(R.id.txtAmount);
             txtStatus = itemView.findViewById(R.id.txtStatus);
+        }
+    }
+    private String formatDate(String millisStr) {
+        try {
+            long millis = Long.parseLong(millisStr);
+            return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(millis));
+        } catch (Exception e) {
+            return millisStr;
         }
     }
 }
