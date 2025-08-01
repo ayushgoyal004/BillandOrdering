@@ -18,11 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Spinner
-            android:id="@+id/clientSpinner"
+        <AutoCompleteTextView
+            android:id="@+id/autoClientSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:hint="Search Client"
+            android:inputType="text"
+            android:dropDownHeight="wrap_content"
+            android:completionThreshold="1"/>
 
         <LinearLayout
             android:id="@+id/layoutItemInputs"

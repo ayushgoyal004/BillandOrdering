@@ -1,6 +1,8 @@
 package com.example.testorder.activities;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testorder.R;
@@ -15,20 +17,24 @@ import java.util.List;
 
 public class NewOrderActivity extends AppCompatActivity {
 
-    Spinner clientSpinner;
+    AutoCompleteTextView autoClientSearch;
     LinearLayout layoutItemInputs;
     Button btnSubmitOrder;
 
     List<Client> clientList = new ArrayList<>();
+    List<Client> filteredClients = new ArrayList<>();
     List<Item> itemList = new ArrayList<>();
     List<EditText[]> itemInputs = new ArrayList<>();
+
+    ArrayAdapter<String> clientAdapter;
+    List<String> clientNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
 
-        clientSpinner = findViewById(R.id.clientSpinner);
+        autoClientSearch = findViewById(R.id.autoClientSearch);
         layoutItemInputs = findViewById(R.id.layoutItemInputs);
         btnSubmitOrder = findViewById(R.id.btnSubmitOrder);
 
@@ -37,25 +43,48 @@ public class NewOrderActivity extends AppCompatActivity {
             clientList = db.clientDao().getAllClients();
             itemList = db.itemDao().getAllItems();
 
+            filteredClients = new ArrayList<>(clientList);
+            updateClientNamesList();
+
             runOnUiThread(() -> {
-                List<String> clientNames = new ArrayList<>();
-                for (Client c : clientList) clientNames.add(c.businessName);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, clientNames);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                clientSpinner.setAdapter(adapter);
+                clientAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, clientNames);
+                autoClientSearch.setAdapter(clientAdapter);
+                autoClientSearch.setThreshold(1); // Show dropdown from 1 char
 
                 for (Item item : itemList) addItemInput(item.itemName);
             });
         }).start();
 
+        autoClientSearch.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) autoClientSearch.showDropDown();
+        });
+
+        autoClientSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterClients(s.toString().trim());
+                autoClientSearch.showDropDown(); // Show live dropdown
+            }
+        });
+
         btnSubmitOrder.setOnClickListener(v -> {
-            int clientIndex = clientSpinner.getSelectedItemPosition();
-            if (clientIndex < 0 || clientIndex >= clientList.size()) {
-                Toast.makeText(this, "Select a client", Toast.LENGTH_SHORT).show();
+            String selectedName = autoClientSearch.getText().toString().trim();
+            Client selectedClient = null;
+            for (Client c : clientList) {
+                if (c.businessName.equals(selectedName)) {
+                    selectedClient = c;
+                    break;
+                }
+            }
+
+            if (selectedClient == null) {
+                Toast.makeText(this, "Select a valid client from the dropdown", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Client selectedClient = clientList.get(clientIndex);
             double subtotal = 0;
             List<OrderItem> orderItems = new ArrayList<>();
 
@@ -69,7 +98,7 @@ public class NewOrderActivity extends AppCompatActivity {
                     double price = Double.parseDouble(priceStr);
                     subtotal += qty * price;
 
-                    orderItems.add(new OrderItem(0, itemList.get(i).itemName, qty, price)); // orderId will be added later
+                    orderItems.add(new OrderItem(0, itemList.get(i).itemName, qty, price));
                 }
             }
 
@@ -85,7 +114,7 @@ public class NewOrderActivity extends AppCompatActivity {
 
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(NewOrderActivity.this);
-                long orderId = db.orderDao().insertAndGetId(order); // must return generated ID
+                long orderId = db.orderDao().insertAndGetId(order);
 
                 for (OrderItem orderItem : orderItems) {
                     orderItem.orderId = (int) orderId;
@@ -120,11 +149,37 @@ public class NewOrderActivity extends AppCompatActivity {
         priceInput.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         itemInputs.add(new EditText[]{quantityInput, priceInput});
-
         row.addView(itemLabel);
         row.addView(quantityInput);
         row.addView(priceInput);
-
         layoutItemInputs.addView(row);
+    }
+
+    private void filterClients(String keyword) {
+        filteredClients.clear();
+        clientNames.clear();
+
+        // Always filter from full list (not from already filtered list)
+        for (Client client : clientList) {
+            if (client.businessName.toLowerCase().contains(keyword.toLowerCase())) {
+                filteredClients.add(client);
+                clientNames.add(client.businessName);
+            }
+        }
+
+        clientAdapter.clear();  // Clear and re-add to refresh dropdown
+        clientAdapter.addAll(clientNames);
+        clientAdapter.notifyDataSetChanged();
+
+        // Show dropdown again to reflect changes immediately
+        autoClientSearch.showDropDown();
+    }
+
+
+    private void updateClientNamesList() {
+        clientNames.clear();
+        for (Client c : filteredClients) {
+            clientNames.add(c.businessName);
+        }
     }
 }

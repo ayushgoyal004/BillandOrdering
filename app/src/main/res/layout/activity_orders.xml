@@ -4,8 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Spinner Row -->
+    <LinearLayout
+        android:id="@+id/spinnerLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <Spinner
+            android:id="@+id/spinnerFilter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spinnerSort"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp" />
+    </LinearLayout>
+
+    <!-- RecyclerView for orders -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/spinnerLayout"
+        android:layout_marginTop="8dp"/>
 </RelativeLayout>
