@@ -129,5 +129,12 @@
             android:layout_height="wrap_content"
             android:text="Add Item"
             android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/btnBackup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Backup Database"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 </ScrollView>
