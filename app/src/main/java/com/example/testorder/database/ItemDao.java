@@ -12,4 +12,9 @@ public interface ItemDao {
 
     @Query("SELECT * FROM items")
     List<Item> getAllItems();
+    @Update
+    void update(Item item);
+
+    @Delete
+    void delete(Item item);
 }
