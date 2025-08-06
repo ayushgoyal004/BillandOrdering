@@ -10,7 +10,7 @@ import com.example.testorder.models.Item;
 import com.example.testorder.database.OrderItemDao;
 import com.example.testorder.models.OrderItem;
 
-@Database(entities = {Client.class, Order.class, Item.class, OrderItem.class}, version = 2)
+@Database(entities = {Client.class, Order.class, Item.class, OrderItem.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

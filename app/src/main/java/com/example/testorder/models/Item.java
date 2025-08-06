@@ -31,6 +31,7 @@
 
 package com.example.testorder.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -38,12 +39,15 @@ import androidx.room.PrimaryKey;
 public class Item {
     @PrimaryKey(autoGenerate = true)
     public int id;
+    @ColumnInfo(name="itemName")
     public String itemName;
-
+    @ColumnInfo(name = "stock")
+    public double stock=0;
     public Item() {}
 
     public Item(String itemName) {
         this.itemName = itemName;
+        this.stock=0;
     }
 
 

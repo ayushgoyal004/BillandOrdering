@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="16dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Spinner Row -->
+    <!-- Date Picker Section -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/txtSelectedDate"
+            android:text="Select Date"
+            android:textColor="@android:color/holo_blue_dark"
+            android:padding="12dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnClearDate"
+            android:text="Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Filter & Sort Spinners -->
     <LinearLayout
         android:id="@+id/spinnerLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:layout_marginBottom="8dp">
 
         <Spinner
             android:id="@+id/spinnerFilter"
@@ -22,15 +47,25 @@
             android:id="@+id/spinnerSort"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp" />
-    </LinearLayout>
+            android:layout_marginStart="12dp"
+            android:layout_height="wrap_content" />
 
-    <!-- RecyclerView for orders -->
+    </LinearLayout>
+    <!-- Add below Spinner Layout -->
+    <EditText
+        android:id="@+id/editSearchClient"
+        android:hint="Search by client name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="text" />
+    <!-- Orders List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/spinnerLayout"
-        android:layout_marginTop="8dp"/>
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

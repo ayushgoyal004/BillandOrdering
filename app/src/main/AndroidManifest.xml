@@ -29,6 +29,7 @@
         <activity android:name=".activities.OrdersActivity"/>
         <activity android:name=".activities.BillPreviewActivity" />
         <activity android:name=".activities.ReportsActivity"/>
+        <activity android:name=".activities.StockRegisterActivity"/>
 
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"

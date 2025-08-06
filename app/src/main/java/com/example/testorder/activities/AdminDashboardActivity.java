@@ -43,6 +43,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(new Intent(this, AddItemActivity.class));
         });
 
+        Button btnStockRegister = findViewById(R.id.btnStockRegister);
+        btnStockRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, StockRegisterActivity.class);
+            startActivity(intent);
+        });
+
+
         btnBackup = findViewById(R.id.btnBackup);
 
         btnBackup.setOnClickListener(v -> {
