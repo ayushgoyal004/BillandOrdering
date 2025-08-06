@@ -52,7 +52,7 @@
 
     </LinearLayout>
     <!-- Add below Spinner Layout -->
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/editSearchClient"
         android:hint="Search by client name"
         android:layout_width="match_parent"

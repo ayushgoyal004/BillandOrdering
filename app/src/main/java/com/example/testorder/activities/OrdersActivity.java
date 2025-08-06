@@ -1,33 +1,22 @@
 package com.example.testorder.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.testorder.R;
 import com.example.testorder.adapters.OrderAdapter;
 import com.example.testorder.database.AppDatabase;
+import com.example.testorder.models.Client;
 import com.example.testorder.models.Order;
-import android.app.DatePickerDialog;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class OrdersActivity extends AppCompatActivity {
 
@@ -36,13 +25,14 @@ public class OrdersActivity extends AppCompatActivity {
     OrderAdapter orderAdapter;
     TextView txtSelectedDate;
     Button btnClearDate;
-    String selectedDateMillis = null; // For filtering
-    EditText editSearchClient;
-    String searchKeyword = "";
+    AutoCompleteTextView editSearchClient;
 
-
+    String selectedDateMillis = null;
+    String selectedClientName = "";
 
     List<Order> allOrders = new ArrayList<>();
+    List<String> clientNames = new ArrayList<>();
+    List<Client> allClients = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +46,28 @@ public class OrdersActivity extends AppCompatActivity {
         spinnerSort = findViewById(R.id.spinnerSort);
         txtSelectedDate = findViewById(R.id.txtSelectedDate);
         btnClearDate = findViewById(R.id.btnClearDate);
+        editSearchClient = findViewById(R.id.editSearchClient);
 
-// Date selection logic
+        ArrayAdapter<String> clientAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, clientNames);
+        editSearchClient.setAdapter(clientAdapter);
+        editSearchClient.setThreshold(1);
+
+        editSearchClient.setOnItemClickListener((parent, view, position, id) -> {
+            selectedClientName = parent.getItemAtPosition(position).toString();
+            applyFilterAndSort();
+        });
+
+        editSearchClient.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                selectedClientName = s.toString().trim();
+                applyFilterAndSort();
+            }
+        });
+
         txtSelectedDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new DatePickerDialog(OrdersActivity.this, (view, year, month, dayOfMonth) -> {
@@ -79,49 +89,38 @@ public class OrdersActivity extends AppCompatActivity {
             applyFilterAndSort();
         });
 
-        editSearchClient = findViewById(R.id.editSearchClient);
-        editSearchClient.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchKeyword = s.toString().toLowerCase().trim();
-                applyFilterAndSort();
-            }
-        });
-
-
-
-        // Setup Filter Spinner
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
                 new String[]{"All", "Pending", "PDF Generated", "Completed"});
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilter.setAdapter(filterAdapter);
 
-        // Setup Sort Spinner
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
                 new String[]{"Newest First", "Oldest First"});
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSort.setAdapter(sortAdapter);
 
-        // Load orders
         new Thread(() -> {
-            allOrders = AppDatabase.getInstance(this).orderDao().getAllOrders();
+            AppDatabase db = AppDatabase.getInstance(this);
+            allOrders = db.orderDao().getAllOrders();
+            allClients = db.clientDao().getAllClients();
+
+            for (Client c : allClients) {
+                clientNames.add(c.businessName);
+            }
+
             runOnUiThread(() -> {
+                clientAdapter.notifyDataSetChanged();
                 applyFilterAndSort();
 
-                // Setup listeners after data is loaded
                 spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         applyFilterAndSort();
                     }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {}
+                    @Override public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
                 spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -130,91 +129,57 @@ public class OrdersActivity extends AppCompatActivity {
                         applyFilterAndSort();
                     }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {}
+                    @Override public void onNothingSelected(AdapterView<?> parent) {}
                 });
             });
         }).start();
     }
 
+    private void applyFilterAndSort() {
+        String filter = spinnerFilter.getSelectedItem().toString();
+        String sort = spinnerSort.getSelectedItem().toString();
 
-//    private void applyFilterAndSort() {
-//        String filter = spinnerFilter.getSelectedItem().toString();
-//        String sort = spinnerSort.getSelectedItem().toString();
-//
-//        List<Order> filtered = new ArrayList<>();
-//        for (Order o : allOrders) {
-//            boolean matchesStatus = filter.equals("All") || o.status.equals(filter);
-//
-//            boolean matchesDate = true;
-//            if (selectedDateMillis != null) {
-//                // Compare only the date part (ignoring time)
-//                long startOfDay = Long.parseLong(selectedDateMillis);
-//                long endOfDay = startOfDay + 24 * 60 * 60 * 1000;
-//                long orderTime = Long.parseLong(o.date);
-//
-//                matchesDate = orderTime >= startOfDay && orderTime < endOfDay;
-//            }
-//
-//            if (matchesStatus && matchesDate) {
-//                filtered.add(o);
-//            }
-//        }
-//
-//        // Sort by date
-//        Collections.sort(filtered, (o1, o2) -> {
-//            long d1 = Long.parseLong(o1.date);
-//            long d2 = Long.parseLong(o2.date);
-//            return sort.equals("Newest First") ? Long.compare(d2, d1) : Long.compare(d1, d2);
-//        });
-//
-//        if (filtered.isEmpty()) {
-//            Toast.makeText(this, "No orders found", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        orderAdapter = new OrderAdapter(this, filtered);
-//        recyclerViewOrders.setAdapter(orderAdapter);
-//    }
-private void applyFilterAndSort() {
-    String filter = spinnerFilter.getSelectedItem().toString();
-    String sort = spinnerSort.getSelectedItem().toString();
+        List<Order> filtered = new ArrayList<>();
+        for (Order o : allOrders) {
+            boolean matchesStatus = filter.equals("All") || o.status.equals(filter);
+            boolean matchesClient = selectedClientName.isEmpty() ||
+                    o.clientName.toLowerCase().contains(selectedClientName.toLowerCase());
 
-    List<Order> filtered = new ArrayList<>();
+            boolean matchesDate = true;
+            if (!selectedClientName.isEmpty()) {
+                // If client is selected, date is optional
+                if (selectedDateMillis != null) {
+                    long startOfDay = Long.parseLong(selectedDateMillis);
+                    long endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+                    long orderTime = Long.parseLong(o.date);
+                    matchesDate = orderTime >= startOfDay && orderTime < endOfDay;
+                }
+            } else {
+                // If no client is selected, date filter is used as-is
+                if (selectedDateMillis != null) {
+                    long startOfDay = Long.parseLong(selectedDateMillis);
+                    long endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+                    long orderTime = Long.parseLong(o.date);
+                    matchesDate = orderTime >= startOfDay && orderTime < endOfDay;
+                }
+            }
 
-    for (Order o : allOrders) {
-        boolean matchesStatus = filter.equals("All") || o.status.equals(filter);
-        boolean matchesClient = true;
-        boolean matchesDate = true;
-
-        if (!searchKeyword.isEmpty()) {
-            matchesClient = o.clientName.toLowerCase().contains(searchKeyword);
-            matchesDate = true; // ignore date if client is typed
-        } else if (selectedDateMillis != null) {
-            long startOfDay = Long.parseLong(selectedDateMillis);
-            long endOfDay = startOfDay + 24 * 60 * 60 * 1000;
-            long orderTime = Long.parseLong(o.date);
-            matchesDate = orderTime >= startOfDay && orderTime < endOfDay;
+            if (matchesStatus && matchesClient && matchesDate) {
+                filtered.add(o);
+            }
         }
 
-        if (matchesStatus && matchesClient && matchesDate) {
-            filtered.add(o);
+        Collections.sort(filtered, (o1, o2) -> {
+            long d1 = Long.parseLong(o1.date);
+            long d2 = Long.parseLong(o2.date);
+            return sort.equals("Newest First") ? Long.compare(d2, d1) : Long.compare(d1, d2);
+        });
+
+        if (filtered.isEmpty()) {
+            Toast.makeText(this, "No orders found", Toast.LENGTH_SHORT).show();
         }
+
+        orderAdapter = new OrderAdapter(this, filtered);
+        recyclerViewOrders.setAdapter(orderAdapter);
     }
-
-    // Sort orders by date
-    Collections.sort(filtered, (o1, o2) -> {
-        long d1 = Long.parseLong(o1.date);
-        long d2 = Long.parseLong(o2.date);
-        return sort.equals("Newest First") ? Long.compare(d2, d1) : Long.compare(d1, d2);
-    });
-
-    if (filtered.isEmpty()) {
-        Toast.makeText(this, "No orders found", Toast.LENGTH_SHORT).show();
-    }
-
-    orderAdapter = new OrderAdapter(this, filtered);
-    recyclerViewOrders.setAdapter(orderAdapter);
-}
-
-
 }
