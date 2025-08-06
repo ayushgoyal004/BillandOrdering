@@ -3,19 +3,23 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Header -->
         <TextView
             android:text="Admin Dashboard"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/primary"
-            android:layout_marginBottom="24dp"  android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <!-- Dashboard Stats -->
         <LinearLayout
@@ -33,8 +37,21 @@
                 android:background="@color/light_gray"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
-                <TextView android:text="-" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_height="match_parent" android:layout_width="wrap_content"/>
-                <TextView android:text="Today's Orders" android:textSize="14sp" android:textColor="@color/gray_800" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+                <TextView
+                    android:text="-"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Today's Orders"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -45,18 +62,34 @@
                 android:background="@color/light_gray"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
-                <TextView android:text="-" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_height="match_parent" android:layout_width="wrap_content"/>
-                <TextView android:text="Today's Revenue" android:textSize="14sp" android:textColor="@color/gray_800" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+                <TextView
+                    android:text="-"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Today's Revenue"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Quick Actions -->
+        <!-- Quick Actions Title -->
         <TextView
             android:text="Quick Actions"
             android:textSize="18sp"
             android:textColor="@color/gray_800"
-            android:layout_marginBottom="12dp" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            android:layout_marginBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <!-- New Order -->
         <LinearLayout
             android:id="@+id/actionNewOrder"
             android:layout_width="match_parent"
@@ -65,15 +98,20 @@
             android:layout_marginBottom="12dp"
             android:background="#f0f4ff"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:text="➕ New Order"
                 android:textSize="16sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <!-- View Orders -->
         <LinearLayout
             android:id="@+id/actionViewOrders"
             android:layout_width="match_parent"
@@ -82,15 +120,20 @@
             android:layout_marginBottom="12dp"
             android:background="#f0f0f0"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:text="📋 View Orders"
                 android:textSize="16sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <!-- Manage Clients -->
         <LinearLayout
             android:id="@+id/actionClients"
             android:layout_width="match_parent"
@@ -99,30 +142,42 @@
             android:layout_marginBottom="12dp"
             android:background="#f0f0f0"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:text="👥 Manage Clients"
                 android:textSize="16sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <!-- Reports -->
         <LinearLayout
             android:id="@+id/actionReports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:layout_marginBottom="12dp"
             android:background="#f0f0f0"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:text="📊 Reports"
                 android:textSize="16sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold" android:layout_height="match_parent" android:layout_width="wrap_content"/>
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+        <!-- Stock Register -->
         <Button
             android:id="@+id/btnStockRegister"
             android:layout_width="match_parent"
@@ -130,20 +185,23 @@
             android:text="Stock Register"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white" />
 
+        <!-- Add Item -->
         <Button
             android:id="@+id/btnAddItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Item"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
+
+        <!-- Backup DB -->
         <Button
             android:id="@+id/btnBackup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Backup Database"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>
