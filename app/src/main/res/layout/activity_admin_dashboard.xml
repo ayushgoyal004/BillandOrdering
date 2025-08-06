@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
         android:orientation="vertical">
 
         <!-- Header -->
@@ -89,93 +97,111 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <!-- New Order -->
-        <LinearLayout
+        <!-- Quick Actions using MaterialCardView -->
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/actionNewOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:layout_marginBottom="12dp"
-            android:background="#f0f4ff"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:text="➕ New Order"
-                android:textSize="16sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="➕ New Order"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- View Orders -->
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/actionViewOrders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:layout_marginBottom="12dp"
-            android:background="#f0f0f0"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:text="📋 View Orders"
-                android:textSize="16sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="📋 View Orders"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Manage Clients -->
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/actionClients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:layout_marginBottom="12dp"
-            android:background="#f0f0f0"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:text="👥 Manage Clients"
-                android:textSize="16sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="👥 Manage Clients"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Reports -->
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/actionReports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:layout_marginBottom="12dp"
-            android:background="#f0f0f0"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:text="📊 Reports"
-                android:textSize="16sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="📊 Reports"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Stock Register -->
         <Button
@@ -203,5 +229,6 @@
             android:text="Backup Database"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_marginTop="16dp" />
+
     </LinearLayout>
 </ScrollView>
